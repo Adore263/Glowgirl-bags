@@ -1,0 +1,92 @@
+[
+  {
+    "barcode": "8718875023428",
+    "name": "Rose Gold Evening Clutch",
+    "price": 89.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 15,
+    "active": true
+  },
+  {
+    "barcode": "8718875023435",
+    "name": "Black Leather Crossbody",
+    "price": 124.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 22,
+    "active": true
+  },
+  {
+    "barcode": "8718875023442",
+    "name": "Cognac Tote Bag",
+    "price": 159.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 8,
+    "active": true
+  },
+  {
+    "barcode": "8718875023459",
+    "name": "Gold Metallic Wristlet",
+    "price": 49.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 30,
+    "active": true
+  },
+  {
+    "barcode": "8718875023466",
+    "name": "Burgundy Shoulder Bag",
+    "price": 139.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 12,
+    "active": true
+  },
+  {
+    "barcode": "8718875023473",
+    "name": "Silver Clutch with Chain",
+    "price": 99.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 18,
+    "active": true
+  },
+  {
+    "barcode": "8718875023480",
+    "name": "Navy Blue Hobo Bag",
+    "price": 149.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 10,
+    "active": true
+  },
+  {
+    "barcode": "8718875023497",
+    "name": "Blush Pink Satchel",
+    "price": 119.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 14,
+    "active": true
+  },
+  {
+    "barcode": "8718875023503",
+    "name": "Bronze Evening Bag",
+    "price": 129.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 9,
+    "active": true
+  },
+  {
+    "barcode": "8718875023510",
+    "name": "Charcoal Crossbody Strap",
+    "price": 69.99,
+    "taxRate": 0.08,
+    "currency": "USD",
+    "stockQty": 25,
+    "active": true
+  }
+]

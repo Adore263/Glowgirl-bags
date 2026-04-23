@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f1e8;
+  --foreground: #1f2937;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #c9c9c9;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), "Segoe UI", sans-serif;
+  line-height: 1.5;
+  background-image:
+    radial-gradient(circle at top left, rgba(201, 161, 82, 0.12), transparent 32%),
+    radial-gradient(circle at top right, rgba(34, 34, 34, 0.08), transparent 28%),
+    linear-gradient(180deg, #f9f4ec 0%, #f7f1e8 45%, #f2ebe1 100%);
+}
+
+a {
+  color: #8b6a2f;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: #6f5323;
+}

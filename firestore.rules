@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isStoreAdmin(storeId) {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)/stores/$(storeId)).data.role in ['admin', 'manager'];
+    }
+
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      match /stores/{storeId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+
+    match /stores/{storeId}/products/{barcode} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isStoreAdmin(storeId);
+    }
+
+    match /stores/{storeId}/sales/{saleId} {
+      allow read: if isStoreAdmin(storeId);
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    match /stores/{storeId}/metrics/{metricId} {
+      allow read: if isStoreAdmin(storeId);
+      allow write: if false;
+    }
+  }
+}
