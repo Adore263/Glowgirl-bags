@@ -56,7 +56,7 @@ export function SaleScanner() {
     return (await response.json()) as ProductLookup;
   }, [storeId]);
 
-  const addBarcode = useCallback(async (barcode: string) => {
+  const addBarcode = useCallback(async (barcode: string, source: "camera" | "manual" = "manual") => {
     if (!barcode) {
       return;
     }
@@ -94,6 +94,10 @@ export function SaleScanner() {
 
       setStatus(`Scanned ${product.name}`);
       setManualBarcode("");
+
+      if (source === "camera" && typeof navigator !== "undefined" && "vibrate" in navigator) {
+        navigator.vibrate(120);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not add barcode.");
     } finally {
@@ -149,8 +153,32 @@ export function SaleScanner() {
     let detector: BarcodeDetector | null = null;
     let detectorEnabled = false;
     let zxingReader: BrowserMultiFormatReader | null = null;
-    let lastCode = "";
-    let lastAt = 0;
+    let activeCode: string | null = null;
+    let activeSeenAt = 0;
+
+    const REARM_AFTER_MISS_MS = 1500;
+
+    const clearActiveCodeIfStale = (now: number) => {
+      if (activeCode && now - activeSeenAt > REARM_AFTER_MISS_MS) {
+        activeCode = null;
+      }
+    };
+
+    const handleDetectedCode = (code: string, now: number) => {
+      if (!code) {
+        clearActiveCodeIfStale(now);
+        return;
+      }
+
+      if (activeCode === code) {
+        activeSeenAt = now;
+        return;
+      }
+
+      activeCode = code;
+      activeSeenAt = now;
+      void addBarcode(code, "camera");
+    };
 
     const run = async () => {
       if (!videoRef.current || !canvasRef.current) {
@@ -217,27 +245,19 @@ export function SaleScanner() {
             try {
               const result = await detector.detect(canvas);
               const code = result[0]?.rawValue?.trim();
-
-              if (code && (code !== lastCode || now - lastAt > 1500)) {
-                lastCode = code;
-                lastAt = now;
-                void addBarcode(code);
-              }
+              handleDetectedCode(code ?? "", now);
             } catch {
               // Ignore camera frame parse errors and keep scanning.
+              clearActiveCodeIfStale(now);
             }
           } else if (zxingReader) {
             try {
               const result = await zxingReader.decodeFromCanvas(canvas);
               const code = result.getText().trim();
-
-              if (code && (code !== lastCode || now - lastAt > 1500)) {
-                lastCode = code;
-                lastAt = now;
-                void addBarcode(code);
-              }
+              handleDetectedCode(code, now);
             } catch {
               // Ignore decode misses and keep scanning.
+              clearActiveCodeIfStale(now);
             }
           }
 
